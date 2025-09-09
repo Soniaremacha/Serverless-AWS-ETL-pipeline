@@ -1,0 +1,8 @@
+{
+  "source": ["aws.glue"],
+  "detail-type": ["Glue Job State Change"],
+  "detail": {
+    "jobName": ["weekly_etl"],
+    "state": ["SUCCEEDED"]
+  }
+}
