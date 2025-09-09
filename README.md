@@ -31,12 +31,10 @@ Repository layout: `Eventbridge/`, `Glue/`, `Lambda/`, `README.md`, `LICENSE`.
 
 
 
-## Data sources (examples)
+## Data sources 
 
 - **Kaggle**: Loan applications & transactions (public dataset).  
 - **OGD India**: All-India Pincode / administrative directories (public open data).
-
-> Replace with your exact dataset links if you publish them.
 
 
 
@@ -45,13 +43,17 @@ Repository layout: `Eventbridge/`, `Glue/`, `Lambda/`, `README.md`, `LICENSE`.
 ### Prerequisites
 - AWS account + AWS CLI v2 configured.
 - Python 3.10+ (for local packaging if needed).
-- An S3 bucket (e.g., `s3://<your-bucket>/tfm/`) with folders:
-  - `raw/` (initial drops)
-  - `processed/` (Parquet outputs)
+- An S3 bucket (e.g., `s3://sonia-uned-tfm-bucket/`) with folders:
+  - `athena-results/` (Queries are stored here)
+  - `kaggle-data/` (initial drops from Kaggle)
+  - `layers` (Kaggle-layer.zip)
+  - `other-data/` (initial drops from OGDI)
+  - `processed-data/` (Parquet outputs)
+  - `secrets/` (kaggle.json file)
 - Glue Data Catalog **database** (e.g., `tfm_db`).
 
 ### Environment variables (suggested)
-- `AWS_REGION` – e.g., `eu-west-1`
+- `AWS_REGION` – e.g., `eu-west-3`
 - `S3_BUCKET` – your target bucket
 - If you ingest from Kaggle via API: `KAGGLE_USERNAME`, `KAGGLE_KEY`
 
