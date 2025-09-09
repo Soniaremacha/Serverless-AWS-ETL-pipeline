@@ -6,7 +6,7 @@ Fully serverless ETL on AWS that ingests public datasets, stores them in S3 as p
 
 
 
-## Architecture (high level)
+## Architecture
 
 
 **Jobs**
