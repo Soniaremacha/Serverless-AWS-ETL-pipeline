@@ -62,8 +62,8 @@ Repository layout: `Eventbridge/`, `Glue/`, `Lambda/`, `README.md`, `LICENSE`.
 ## Deploy & configure (step-by-step)
 
 1. **Create S3 structure**
-   - `s3://<bucket>/raw/...`
-   - `s3://<bucket>/processed/...` (Glue jobs will write here as Parquet)
+   - `s3://<bucket>/athena-results/...`
+   - `s3://<bucket>/processed-data/...` (Glue jobs will write here as Parquet)
 
 2. **Glue Data Catalog**
    - Create database `tfm_db`.
@@ -72,11 +72,17 @@ Repository layout: `Eventbridge/`, `Glue/`, `Lambda/`, `README.md`, `LICENSE`.
    - Create two jobs, upload scripts from `/Glue/`:
      - `static_locations_etl` (run once or on demand)
      - `weekly_etl` (scheduled)
-   - Job role needs access to S3 (read `raw`, write `processed`), Glue (catalog/crawlers), and CloudWatch Logs.
+   - Job role needs access to S3 (read `kaggle-data` and `other-data/`, write `processed-data`), Glue (catalog/crawlers), and CloudWatch Logs.
 
 4. **Glue Crawlers**
-   - Create crawlers for each processed table (e.g., `loan_applications`, `transactions`, `customers`, `locations`, `centroids`).
-   - Target: `s3://<bucket>/processed/<table>/`
+   - Create crawlers for each processed table (e.g., `crawler_loan_applications`, `crawler_transactions`, `crawler_customers`, `crawler_locations`, `crawler_centroids`).
+   - Targets:
+       - `s3://sonia-uned-tfm-bucket/processed-data/loan_applications/<table>/`
+       - `s3://sonia-uned-tfm-bucket/processed-data/transactions/<table>/`
+       - `s3://sonia-uned-tfm-bucket/processed-data/customers/<table>/`
+       - `s3://sonia-uned-tfm-bucket/processed-data/locations/<table>/`
+       - `s3://sonia-uned-tfm-bucket/processed-data/centroids/<table>/`
+         
    - Database: `tfm_db`
 
 5. **EventBridge scheduling**
