@@ -93,53 +93,6 @@ Repository layout: `Eventbridge/`, `Glue/`, `Lambda/`, `README.md`, `LICENSE`.
 
 
 
-## Querying in Athena (examples)
-
-> Adjust database/table/column names to match your final schema.
-
-**1) Fraud rate by state (join with locations)**
-```sql
-SELECT
-  l.state AS state,
-  COUNT_IF(a.is_fraud = TRUE) * 1.0 / COUNT(*) AS fraud_rate,
-  COUNT(*) AS applications
-FROM tfm_db.loan_applications a
-JOIN tfm_db.locations l
-  ON a.location_state = l.statename
-GROUP BY 1
-ORDER BY fraud_rate DESC;
-
-```
-
-**2) Monthly approval ratio**
-```sql
-SELECT
-  date_trunc('month', a.application_date) AS month,
-  COUNT_IF(a.is_approved = TRUE) * 1.0 / COUNT(*) AS approval_ratio,
-  COUNT(*) AS applications
-FROM tfm_db.loan_applications a
-GROUP BY 1
-ORDER BY 1;
-
-```
-
-**3) Transactions flagged vs. total by state**
-```sql
-SELECT
-  l.state,
-  COUNT_IF(t.is_flagged = TRUE) AS flagged_tx,
-  COUNT(*) AS total_tx,
-  COUNT_IF(t.is_flagged = TRUE) * 1.0 / COUNT(*) AS flagged_ratio
-FROM tfm_db.transactions t
-LEFT JOIN tfm_db.locations l
-  ON t.location_state = l.statename
-GROUP BY 1
-ORDER BY flagged_ratio DESC;
-
-```
-
-
-
 ## Cost & operations
 
 - Storage: Parquet reduces size and speeds up Athena scans.
